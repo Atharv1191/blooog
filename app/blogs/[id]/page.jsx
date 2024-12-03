@@ -4,11 +4,23 @@ import { assets, blog_data } from '@/assets/assets';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
 import Link from 'next/link';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 const Page = ({ params: paramsPromise }) => {
   const [data, setData] = useState(null);
   const [params, setParams] = useState(null);
+
+  const fetchBlogData = async () => {
+    try {
+      const response = await axios.get('/api/blog', {
+        params: { id: params.id },
+      });
+      setData(response.data);
+    } catch (error) {
+      console.error('Error fetching blog data:', error);
+    }
+  };
 
   // Unwrap the params Promise
   useEffect(() => {
@@ -22,51 +34,83 @@ const Page = ({ params: paramsPromise }) => {
       const blog = blog_data.find((item) => Number(params.id) === item.id);
       if (blog) {
         setData(blog);
-        console.log(blog);
+      } else {
+        fetchBlogData();
       }
     }
   }, [params]);
 
+  // Handle cases where data is null or undefined
+  if (!data) {
+    return <div className="text-center py-20 text-gray-500">Loading...</div>;
+  }
+
   return (
-    data?<>
-    <div className='bg-gray-200 py-5 px-5 md:px-12 lg:px-28'>
-        <div className='flex justify-between item-center '>
-            <Link href='/' >
-            <Image src={assets.logo} width={180} alt='' className='w-130px sm:w-auto'/>
-            </Link>
-            <button className='flex item-center gap-2 font-medium py-1 px-3 sm:py-3 sm:px-6 border border-black shadow-[-7px_7px_0px_#000000]'>Get Started <Image src={assets.arrow} alt=''/></button>
+    <>
+      <div className="bg-gray-100 py-6 px-4 md:px-12 lg:px-28">
+        <div className="flex justify-between items-center mb-8">
+          <Link href="/">
+            <Image src={assets.logo} width={180} alt="Logo" className="cursor-pointer" />
+          </Link>
+          <button className="flex items-center gap-2 font-medium py-2 px-4 sm:py-3 sm:px-6 border border-black shadow-md bg-white hover:bg-gray-200 transition">
+            Get Started
+            <Image src={assets.arrow} alt="Arrow Icon" width={20} height={20} />
+          </button>
         </div>
-        <div className='text-center my-24'>
-            <h1 className='text-2xl sm:text-5xl font-semibold max-w-[700px] mx-auto'>{data.title}</h1>
-            <Image className='mx-auto mt-6 border border-white rounded-full' src={data.author_img} width={60} height={60} alt='' />
-            <p className='mt-1 pb-2 text-lg max-w-[740px] mx-auto'>{data.author}</p>
+        <div className="text-center my-16">
+          <h1 className="text-3xl sm:text-5xl font-semibold max-w-[700px] mx-auto">{data.title}</h1>
+          {data.authorImg && (
+            <Image
+              className="mx-auto mt-6 border border-gray-300 rounded-full"
+              src={data.authorImg}
+              width={60}
+              height={60}
+              alt="Author Image"
+            />
+          )}
+          <p className="mt-2 text-lg text-gray-700">{data.author}</p>
         </div>
-     
-    </div>
-    <div className='mx-5 max-w-[800px] md:max-auto mt-[-100px] mb-10'>
-        <Image className='border-4 border-white' src={data.image} width={1280} height={720} alt=''/>
-        <h1 className='my-8 text-[26px] font-semibold'>Introduction</h1>
-        <p>{data.description}</p>
-        <h3 className='my-5 text-[18px] font-semibold'>Step 2: Self-Reflection and Goal Setting</h3>
-        <p className='my-3'>Before you can manage your lifeStyle, you must have a clear understanding what you want to achive, Start by reflecting on your values ,aspirations, and long-term goals.</p>
-        <h3 className='my-5 text-[18px] font-semibold'>Step 3: Self-Reflection and Goal Setting</h3>
-        <p className='my-3'>Before you can manage your lifeStyle, you must have a clear understanding what you want to achive, Start by reflecting on your values ,aspirations, and long-term goals.</p>
-        <h3 className='my-5 text-[18px] font-semibold'>Conclusion:</h3>
-        <p className='my-3'>Managing your lifeStyle is a journy that requires commitment and self-awareness. By following step-by-step guide,You van take control of your life and make amnageful changes thatb lead toa more balanced and fulfilling lifestyle.Remember that's okay to seek support and guidance from proffesionals or mentors along the way.Your well-being and happiness are worth the effort,</p>
-        <div className='my-24'>
-            <p className='text-black font-semibold my-4'>Share this article on social media</p>
-            <div className='flex'>
-                <Image src={assets.facebook_icon} width={50} alt=''/>
-                <Image src={assets.twitter_icon} width={50} alt=''/>
-                <Image src={assets.googleplus_icon} width={50} alt=''/>
-
-            </div>
+      </div>
+      <div className="px-4 md:px-12 lg:px-28 mt-[-60px] mb-10">
+        {data.image && (
+          <Image
+            className="border border-gray-300 rounded-lg"
+            src={data.image}
+            width={1280}
+            height={720}
+            alt="Blog Image"
+          />
+        )}
+        <div className="mt-8">
+          <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
+          <p className="text-gray-700 leading-relaxed">{data.description}</p>
         </div>
+        <h3 className="mt-8 text-xl font-semibold">Step 2: Self-Reflection and Goal Setting</h3>
+        <p className="text-gray-700 leading-relaxed">
+          Before you can manage your lifestyle, you must have a clear understanding of what you want to achieve.
+          Start by reflecting on your values, aspirations, and long-term goals.
+        </p>
+        <h3 className="mt-8 text-xl font-semibold">Step 3: Implement Changes</h3>
+        <p className="text-gray-700 leading-relaxed">
+          Implementing changes based on your self-reflection is key. Start small and build habits over time.
+        </p>
+        <h3 className="mt-8 text-xl font-semibold">Conclusion:</h3>
+        <p className="text-gray-700 leading-relaxed">
+          Managing your lifestyle is a journey that requires commitment and self-awareness. By following this guide,
+          you can make meaningful changes for a more balanced and fulfilling life.
+        </p>
+        <div className="mt-16">
+          <p className="text-gray-800 font-semibold mb-4">Share this article on social media</p>
+          <div className="flex gap-4">
+            <Image src={assets.facebook_icon} width={50} alt="Facebook Icon" />
+            <Image src={assets.twitter_icon} width={50} alt="Twitter Icon" />
+            <Image src={assets.googleplus_icon} width={50} alt="Google Plus Icon" />
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
+};
 
-    </div>
-    <Footer/>
-    </>:<></>
-  )
-}
-
-export default Page
+export default Page;

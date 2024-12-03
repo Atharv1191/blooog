@@ -152,7 +152,7 @@ export const assets = {
     },
     {
         id:12,
-        title:"How to design an online Learning Platform today",
+        title:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the.y",
         description:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the..",
         image:blog_pic_12,
         date:Date.now(),
