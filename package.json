@@ -18,6 +18,7 @@
     "react-toastify": "^10.0.6"
   },
   "devDependencies": {
+    "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "postcss": "^8",
