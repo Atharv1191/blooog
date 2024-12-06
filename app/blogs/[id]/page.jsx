@@ -5,46 +5,52 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Page = ({ params: paramsPromise }) => {
   const [data, setData] = useState(null);
   const [params, setParams] = useState(null);
 
-  const fetchBlogData = async () => {
-    try {
-      const response = await axios.get('/api/blog', {
-        params: { id: params.id },
+  // Unwrap the params promise and store it in the state
+  useEffect(() => {
+    if (paramsPromise && typeof paramsPromise.then === 'function') {
+      paramsPromise.then((resolvedParams) => {
+        setParams(resolvedParams); // Safely unwrap the promise and set it
       });
+    } else {
+      setParams(paramsPromise); // Handle cases where it's not a promise
+    }
+  }, [paramsPromise]);
+
+  // Function to fetch blog data from API
+  const fetchBlogData = async (id) => {
+    try {
+      const response = await axios.get('/api/blog', { params: { id } });
       setData(response.data);
     } catch (error) {
       console.error('Error fetching blog data:', error);
     }
   };
 
-  // Unwrap the params Promise
+  // Fetch or find blog data once params are available
   useEffect(() => {
-    paramsPromise.then((resolvedParams) => {
-      setParams(resolvedParams);
-    });
-  }, [paramsPromise]);
-
-  useEffect(() => {
-    if (params) {
-      const blog = blog_data.find((item) => Number(params.id) === item.id);
+    if (params && params.id) {
+      const blogId = params.id;
+      const blog = blog_data.find((item) => Number(blogId) === item.id);
       if (blog) {
-        setData(blog);
+        setData(blog); // Use local data if found
       } else {
-        fetchBlogData();
+        fetchBlogData(blogId); // Fetch from API if not found locally
       }
     }
   }, [params]);
 
-  // Handle cases where data is null or undefined
+  // Loading state
   if (!data) {
     return <div className="text-center py-20 text-gray-500">Loading...</div>;
   }
 
+  // Render UI
   return (
     <>
       <div className="bg-gray-100 py-6 px-4 md:px-12 lg:px-28">
