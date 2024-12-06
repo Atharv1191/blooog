@@ -56,11 +56,22 @@ const Page = ({ params: paramsPromise }) => {
       <div className="bg-gray-100 py-6 px-4 md:px-12 lg:px-28">
         <div className="flex justify-between items-center mb-8">
           <Link href="/">
-            <Image src={assets.logo} width={180} alt="Logo" className="cursor-pointer" />
+            <Image 
+              src={assets.logo} 
+              width={180} 
+              height={60} // Added explicit height
+              alt="Logo" 
+              className="cursor-pointer" 
+            />
           </Link>
           <button className="flex items-center gap-2 font-medium py-2 px-4 sm:py-3 sm:px-6 border border-black shadow-md bg-white hover:bg-gray-200 transition">
             Get Started
-            <Image src={assets.arrow} alt="Arrow Icon" width={20} height={20} />
+            <Image 
+              src={assets.arrow} 
+              width={20} 
+              height={20} 
+              alt="Arrow Icon" 
+            />
           </button>
         </div>
         <div className="text-center my-16">
@@ -85,6 +96,7 @@ const Page = ({ params: paramsPromise }) => {
             width={1280}
             height={720}
             alt="Blog Image"
+            priority // Improves loading for critical images
           />
         )}
         <div className="mt-8">
@@ -108,9 +120,24 @@ const Page = ({ params: paramsPromise }) => {
         <div className="mt-16">
           <p className="text-gray-800 font-semibold mb-4">Share this article on social media</p>
           <div className="flex gap-4">
-            <Image src={assets.facebook_icon} width={50} alt="Facebook Icon" />
-            <Image src={assets.twitter_icon} width={50} alt="Twitter Icon" />
-            <Image src={assets.googleplus_icon} width={50} alt="Google Plus Icon" />
+            <Image 
+              src={assets.facebook_icon} 
+              width={50} 
+              height={50} 
+              alt="Facebook Icon" 
+            />
+            <Image 
+              src={assets.twitter_icon} 
+              width={50} 
+              height={50} 
+              alt="Twitter Icon" 
+            />
+            <Image 
+              src={assets.googleplus_icon} 
+              width={50} 
+              height={50} 
+              alt="Google Plus Icon" 
+            />
           </div>
         </div>
       </div>
