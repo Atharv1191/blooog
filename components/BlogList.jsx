@@ -1,4 +1,5 @@
 
+
 import React, { useEffect, useState } from 'react';
 import BlogItem from './BlogItem';
 import axios from 'axios';
@@ -37,18 +38,18 @@ const BlogList = () => {
   }, [menu, searchQuery, blogs]);
 
   return (
-    <div>
+    <div className="px-4 sm:px-6 lg:px-12">
       {/* Search Bar */}
       <div className="mb-6 flex justify-center">
-        <div className="relative w-full sm:w-1/2">
+        <div className="relative w-full max-w-md">
           <input
             type="text"
             placeholder="Search blogs..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
           />
-          <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+          <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-gray-400"
@@ -66,35 +67,24 @@ const BlogList = () => {
       </div>
 
       {/* Category Buttons */}
-      <div className="flex justify-center gap-6 my-10">
-        <button
-          onClick={() => setMenu('All')}
-          className={menu === 'All' ? 'bg-black text-white py-1 px-4 rounded-sm' : ''}
-        >
-          All
-        </button>
-        <button
-          onClick={() => setMenu('Technology')}
-          className={menu === 'Technology' ? 'bg-black text-white py-1 px-4 rounded-sm' : ''}
-        >
-          Technology
-        </button>
-        <button
-          onClick={() => setMenu('Startup')}
-          className={menu === 'Startup' ? 'bg-black text-white py-1 px-4 rounded-sm' : ''}
-        >
-          Startup
-        </button>
-        <button
-          onClick={() => setMenu('Lifestyle')}
-          className={menu === 'Lifestyle' ? 'bg-black text-white py-1 px-4 rounded-sm' : ''}
-        >
-          Lifestyle
-        </button>
+      <div className="flex flex-wrap justify-center gap-4 my-10">
+        {['All', 'Technology', 'Startup', 'Lifestyle'].map((category) => (
+          <button
+            key={category}
+            onClick={() => setMenu(category)}
+            className={`py-2 px-4 rounded-full text-sm sm:text-base ${
+              menu === category
+                ? 'bg-black text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
+          >
+            {category}
+          </button>
+        ))}
       </div>
 
       {/* Blog Items */}
-      <div className="flex flex-wrap justify-around gap-1 gap-y-10 mb-16 xl:mx-24">
+      <div className="flex flex-wrap justify-center gap-6">
         {filteredBlogs.length > 0 ? (
           filteredBlogs.map((item, index) => (
             <BlogItem
@@ -107,7 +97,7 @@ const BlogList = () => {
             />
           ))
         ) : (
-          <p className="text-gray-500">No blogs found.</p>
+          <p className="text-gray-500 text-center">No blogs found.</p>
         )}
       </div>
     </div>
