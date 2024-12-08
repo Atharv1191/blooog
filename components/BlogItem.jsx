@@ -21,5 +21,5 @@ const BlogItem = ({title,description,category,image,id}) => {
     </div>
   )
 }
-
 export default BlogItem
+

@@ -61,11 +61,13 @@ const Header = () => {
             className='border-l border-black py-4 px-4 sm:px-8 active:bg-gray-600 active:text-white'
           >
             Subscribe
-          </button>
+          </button> 
+         
         </form>
       </div>
     </div>
   );
 };
+
 
 export default Header;
