@@ -5,17 +5,17 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 const Header = () => {
-  const [email,setEmail] = useState("")
-  const onSubmitHandler = async(e)=>{
+  const [email, setEmail] = useState("")
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('email', email);
-    const response = await axios.post('/api/email',formData);
-    if(response.data.success){
+    const response = await axios.post('/api/email', formData);
+    if (response.data.success) {
       toast.success(response.data.message)
       setEmail("")
     }
-    else{
+    else {
       toast.error("Error")
     }
   }
@@ -50,19 +50,20 @@ const Header = () => {
           className='flex items-center justify-between max-w-[500px] scale-75 sm:scale-100 mx-auto mt-10 border border-black shadow-[-7px_7px_0px_#000000]'
         >
           <input
-          onChange={(e)=>setEmail(e.target.value)}
-          value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
             type='email'
             placeholder='Enter Your email'
             className='pl-4 outline-none flex-grow'
           />
           <button
-            type='submit'
-            className='border-l border-black py-4 px-4 sm:px-8 active:bg-gray-600 active:text-white'
+            type="submit"
+            className="border-l border-black py-2 px-6 sm:py-3 sm:px-8 active:bg-gray-600 active:text-white"
           >
             Subscribe
-          </button> 
-         
+          </button>
+
+
         </form>
       </div>
     </div>
