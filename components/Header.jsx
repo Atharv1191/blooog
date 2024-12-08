@@ -58,10 +58,11 @@ const Header = () => {
           />
           <button
             type="submit"
-            className="border-l border-black py-2 px-6 sm:py-3 sm:px-8 active:bg-gray-600 active:text-white"
+            className="border-l border-black py-2 px-4 sm:py-3 sm:px-6 active:bg-gray-600 active:text-white text-center text-sm sm:text-base"
           >
             Subscribe
           </button>
+
 
 
         </form>
